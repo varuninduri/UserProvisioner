@@ -1,0 +1,7 @@
+ - hosts: Delservers
+   gather_facts: no
+   remote_user: root
+   tasks:
+
+   - name: Remove a new user named {{ id }}
+     shell: userdel -r {{ id }}
