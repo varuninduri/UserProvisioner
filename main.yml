@@ -1,0 +1,24 @@
+ - hosts: all
+   gather_facts: no
+   remote_user: root
+   tasks:
+
+   - name: Add a new user named {{ id }}
+     user:
+          name={{ id }}
+          password=user
+
+   - name: Add provision user to the sudoers
+     copy:
+          dest: "/etc/sudoers.d/{{ id }}"
+          content: "{{ id }}  ALL=(ALL)  NOPASSWD: ALL"
+
+   - name: Deploy SSH Key
+     authorized_key: user={{ id }}
+                     key="{{ lookup('file', '/home/{{ id }}/.ssh/id_rsa.pub') }}"
+                     state=present
+   handlers:
+   - name: restart ssh
+     service:
+       name=sshd
+       state=restarted
