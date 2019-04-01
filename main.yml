@@ -1,4 +1,4 @@
- - hosts: all
+ - hosts: Addservers
    gather_facts: no
    remote_user: root
    tasks:
